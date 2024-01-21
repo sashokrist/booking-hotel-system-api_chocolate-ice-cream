@@ -89,6 +89,9 @@ Test Email
 
 <img width="548" alt="booking cancel" src="https://github.com/sashokrist/booking-hotel-system-api_chocolate-ice-cream/assets/11788009/19361f44-39a9-4df1-b2a4-b2afc288b57b">
 
+Unit Tests:
+
+<img width="677" alt="tests" src="https://github.com/sashokrist/booking-hotel-system-api_chocolate-ice-cream/assets/11788009/1f494072-db3a-4a0b-8fbd-823662182595">
 
 
 

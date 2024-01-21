@@ -47,9 +47,9 @@ POST /logout
 
 GET /rooms
 
-POST /rooms
+GET /rooms/1
 
-POST /rooms/1
+POST /rooms
 
 DELETE /rooms/1
 

@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class RoomControllerTest extends TestCase
 {
-  // use RefreshDatabase;
+   use RefreshDatabase;
 
     public function testRoomCreationSuccessfully()
     {

@@ -78,6 +78,7 @@
                                     "total_price": {
                                         "type": "number",
                                         "format": "float",
+                                        "readOnly": true,
                                         "example": 100.5
                                     }
                                 },
@@ -89,6 +90,12 @@
                 "responses": {
                     "201": {
                         "description": "Booking successfully created"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
                     }
                 },
                 "security": [

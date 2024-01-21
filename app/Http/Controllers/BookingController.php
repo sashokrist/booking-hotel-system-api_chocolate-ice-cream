@@ -59,13 +59,21 @@ class BookingController extends Controller
      *             @OA\Property(property="customer_id", type="integer", format="int64", example=1),
      *             @OA\Property(property="check_in_date", type="string", format="date", example="2024-01-01"),
      *             @OA\Property(property="check_out_date", type="string", format="date", example="2024-01-05"),
-     *             @OA\Property(property="total_price", type="number", format="float", example=100.50)
+     *             @OA\Property(property="total_price", type="number", format="float", readOnly=true, example=100.50)
      *         )
      *     ),
      *     @OA\Response(
      *         response=201,
      *         description="Booking successfully created",
-     *     )
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Invalid input",
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *      )
      * )
      */
     public function store(Request $request)

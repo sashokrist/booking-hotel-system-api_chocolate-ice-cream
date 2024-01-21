@@ -1,0 +1,513 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Hotel Booking System API",
+        "version": "v1"
+    },
+    "paths": {
+        "/api/bookings": {
+            "get": {
+                "tags": [
+                    "Bookings"
+                ],
+                "summary": "List all bookings",
+                "operationId": "eb7c332e8ba161904a1c0071040f61a5",
+                "responses": {
+                    "200": {
+                        "description": "Bookings retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "item": {
+                                            "type": "string",
+                                            "example": "Fetch all bokkings"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Bookings"
+                ],
+                "summary": "Create a new booking",
+                "operationId": "e33fa5a6507581f9b1e0d710a9a130d1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "room_id",
+                                    "customer_id",
+                                    "check_in_date",
+                                    "check_out_date",
+                                    "total_price"
+                                ],
+                                "properties": {
+                                    "room_id": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "example": 1
+                                    },
+                                    "customer_id": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "example": 1
+                                    },
+                                    "check_in_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-01-01"
+                                    },
+                                    "check_out_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-01-05"
+                                    },
+                                    "total_price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 100.5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Booking successfully created"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/bookings/{id}": {
+            "delete": {
+                "tags": [
+                    "Bookings"
+                ],
+                "summary": "Cancel a booking",
+                "operationId": "9f51d8752d2471c30540b89c13e933df",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Booking canceled and room status updated successfully"
+                    },
+                    "404": {
+                        "description": "Booking not found"
+                    },
+                    "400": {
+                        "description": "Room is not currently booked"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/customers": {
+            "get": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "List all customers",
+                "operationId": "2b23ac696cfd81c23807c2c1fd63b0b0",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "item": {
+                                            "type": "string",
+                                            "example": "Fetch all Customers"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Create a new customer",
+                "operationId": "428d5533c8386f91d2baf4de69f01468",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "phone_number"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "johndoe@example.com"
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "1234567890"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Customer created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "item": {
+                                            "type": "string",
+                                            "example": "Store new customer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/payments": {
+            "post": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Create a new payment",
+                "description": "Stores a new payment record",
+                "operationId": "5e2794ba3d3c64e70873367505e4a751",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "booking_id",
+                                    "amount",
+                                    "payment_date",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "booking_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 100.5
+                                    },
+                                    "payment_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-01-01"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "processed"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Payment created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "item": {
+                                            "type": "string",
+                                            "example": "Store new payment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/rooms": {
+            "get": {
+                "tags": [
+                    "Rooms"
+                ],
+                "summary": "List all rooms",
+                "operationId": "bea681612754126f01807ff95647eb34",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "item": {
+                                            "type": "string",
+                                            "example": "Fetch all rooms"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Rooms"
+                ],
+                "summary": "Create a new room",
+                "operationId": "cd6c1029f22e2425a1f99cf83e27383a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "number",
+                                    "type",
+                                    "price_per_night",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "number": {
+                                        "type": "string",
+                                        "example": "101"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "suite"
+                                    },
+                                    "price_per_night": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 150
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "available"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Room created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "item": {
+                                            "type": "string",
+                                            "example": "Add new room"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/rooms/{id}": {
+            "get": {
+                "tags": [
+                    "Rooms"
+                ],
+                "summary": "Show a specific room",
+                "operationId": "91a59d880bb0297e8321dd75af8f506b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Room ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "item": {
+                                            "type": "string",
+                                            "example": "Room details"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Room not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Rooms"
+                ],
+                "summary": "Delete a room",
+                "description": "Deletes a room if no bookings are associated with it",
+                "operationId": "61024891be80949c0aaa6e4536381225",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Room ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Room deleted successfully"
+                    },
+                    "400": {
+                        "description": "Room cannot be deleted, it has bookings"
+                    },
+                    "404": {
+                        "description": "Room not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Bookings",
+            "description": "API Endpoints of Bookings"
+        },
+        {
+            "name": "Customers",
+            "description": "API Endpoints of Customers"
+        },
+        {
+            "name": "Payments",
+            "description": "API Endpoints of Payments"
+        },
+        {
+            "name": "Rooms",
+            "description": "API Endpoints of Rooms"
+        }
+    ]
+}

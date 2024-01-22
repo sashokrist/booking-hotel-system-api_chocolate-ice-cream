@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCustomerRequest;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Validator;
@@ -68,18 +69,8 @@ class CustomerController extends Controller
      *     )
      * )
      */
-    public function store(Request $request)
+    public function store(StoreCustomerRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'email' => 'required|email|unique:customers',
-            'phone_number' => 'required|string'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
         $customer = Customer::create($request->all());
         return response()->json($customer, 201);
     }

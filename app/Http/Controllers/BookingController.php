@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\BookingCanceled;
 use App\Events\BookingCreated;
+use App\Http\Requests\StoreBookingRequest;
 use App\Models\Room;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -76,19 +77,8 @@ class BookingController extends Controller
      *      )
      * )
      */
-    public function store(Request $request)
+    public function store(StoreBookingRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'room_id' => 'required|exists:rooms,id',
-            'customer_id' => 'required|exists:customers,id',
-            'check_in_date' => 'required|date',
-            'check_out_date' => 'required|date|after:check_in_date'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
         $room = Room::find($request->room_id);
         if ($room->status !== 'available') {
             return response()->json(['error' => 'Room is not available'], 400);

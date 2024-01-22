@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePaymentRequest;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use App\Models\Payment;
@@ -46,19 +47,8 @@ class PaymentController extends Controller
      *     )
      * )
      */
-    public function store(Request $request)
+    public function store(StorePaymentRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'booking_id' => 'required|exists:bookings,id',
-            'amount' => 'required|numeric',
-            'payment_date' => 'required|date',
-            'status' => 'required|string'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
         $booking = Booking::find($request->booking_id);
         if (!$booking) {
             return response()->json(['error' => 'No booking found with this ID'], 404);

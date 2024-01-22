@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreRoomRequest;
 use Illuminate\Http\Request;
 use App\Models\Room;
 use Illuminate\Support\Facades\Validator;
@@ -69,22 +70,8 @@ class RoomController extends Controller
      *     )
      * )
      */
-    public function store(Request $request)
+    public function store(StoreRoomRequest $request)
     {
-        $messages = [
-            'number.unique' => 'The room number is already in use.',
-        ];
-        $validator = Validator::make($request->all(), [
-            'number' => 'required|string|unique:rooms',
-            'type' => 'required|string',
-            'price_per_night' => 'required|numeric',
-            'status' => 'required|string'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
         $room = Room::create($request->all());
         return response()->json($room, 201);
     }

@@ -9,6 +9,7 @@ use App\Models\Room;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Booking;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use OpenApi\Annotations as OA;
 
@@ -79,26 +80,31 @@ class BookingController extends Controller
      */
     public function store(StoreBookingRequest $request)
     {
-        $room = Room::find($request->room_id);
-        if ($room->status !== 'available') {
-            return response()->json(['error' => 'Room is not available'], 400);
-        }
+        return DB::transaction(function () use ($request) {
+            $room = Room::where('id', $request->room_id)
+                ->where('status', 'available')
+                ->firstOrFail();
 
-        // Calculate the total price
-        $checkInDate = Carbon::parse($request->check_in_date);
-        $checkOutDate = Carbon::parse($request->check_out_date);
-        $numberOfNights = $checkOutDate->diffInDays($checkInDate);
-        $totalPrice = $numberOfNights * $room->price_per_night;
+            $checkInDate = Carbon::parse($request->check_in_date);
+            $checkOutDate = Carbon::parse($request->check_out_date);
+            $numberOfNights = $checkOutDate->diffInDays($checkInDate);
+            $totalPrice = $numberOfNights * $room->price_per_night;
 
-        // Create the booking
-        $bookingData = array_merge($request->all(), ['total_price' => $totalPrice]);
-        $booking = Booking::create($bookingData);
+            // Create the booking
+            $booking = Booking::create([
+                'room_id' => $room->id,
+                'customer_id' => $request->customer_id,
+                'check_in_date' => $request->check_in_date,
+                'check_out_date' => $request->check_out_date,
+                'total_price' => $totalPrice
+            ]);
 
-        $room->update(['status' => 'booked']);
+            $room->update(['status' => 'booked']);
 
-        BookingCreated::dispatch($booking);
+            BookingCreated::dispatch($booking);
 
-        return response()->json($booking, 201);
+            return response()->json($booking, 201);
+        });
     }
 
     /**

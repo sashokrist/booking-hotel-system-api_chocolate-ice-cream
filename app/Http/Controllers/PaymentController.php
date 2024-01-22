@@ -49,10 +49,7 @@ class PaymentController extends Controller
      */
     public function store(StorePaymentRequest $request)
     {
-        $booking = Booking::find($request->booking_id);
-        if (!$booking) {
-            return response()->json(['error' => 'No booking found with this ID'], 404);
-        }
+        $booking = Booking::with('payments')->findOrFail($request->booking_id);
 
         if ($booking->payments()->exists()) {
             return response()->json(['error' => 'Payment has already been made for this booking'], 400);

@@ -4,7 +4,7 @@
 To install and run the project follow these steps:
 
 run in console: 
-- git@github.com:sashokrist/booking-hotel-system-api_chocolate-ice-cream.git
+- git clone git@github.com:sashokrist/booking-hotel-system-api_chocolate-ice-cream.git
 - cd /booking-hotel-system-api_chocolate-ice-cream
 - composer install
 - cp .env.example .env
